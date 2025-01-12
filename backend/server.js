@@ -279,13 +279,20 @@ app.post('/upload-campaign', authenticate, uploadcamp.single('file'), async (req
                     campaignName: row.CampaignName,
                     pan: row.PAN,
                     details: row.Details || '',
-                    status: row.Status || 'Applied'
+                    status: row.Status || 'Applied',
+                    dateOfApproval: row.DateOfApproval || '',
+                    paymentDetails:{
+                      amount:row.Amount || null,
+                      dueDate:row.DueDate ||  null,
+                      status: row.PaymentStatus || 'Pending',
+                    },
+                    uploadDate:row.UploadDate
                 });
             })
             .on('end', async () => {
                 await Campaign.insertMany(campaigns);
                 fs.unlinkSync(filePath);
-                res.status(200).json({ message: 'Campaign data uploaded successfully.' });
+                res.status(200).json({ message: 'Campaign data uploaded successfully. Pleases refresh the page.' });
             });
     } catch (error) {
         console.error('CSV upload error:', error);
@@ -411,6 +418,7 @@ app.post('/upload-invoice', authenticate, uploadinvo.single('file'), async(req,r
 
       const invoice = [];
       let processingQueue = Promise.resolve(); 
+      let message;
       
       const csvStream = fs.createReadStream(filepath)
           .pipe(csvParser())
@@ -438,6 +446,9 @@ app.post('/upload-invoice', authenticate, uploadinvo.single('file'), async(req,r
                   await processingQueue;
                   await Invoice.insertMany(invoice);
                   fs.unlinkSync(filepath);
+                  if(message){
+                    return res.status(200).json({ message: message});
+                  }
                   return res.status(200).json({ message: 'Invoice data uploaded successfully.' });
               } catch (error) {
                   console.error(`Error inserting invoices: ${error.message}`);
@@ -452,21 +463,25 @@ app.post('/upload-invoice', authenticate, uploadinvo.single('file'), async(req,r
       async function processRow(row) {
 
           if (!row.PAN || !row.CampaignName) {
+              message = 'Missing Mendatory Fields';
               return;
           }
           if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(row.PAN)) {
+              message = `Invalid PAN found in the file:${row.PAN}`;
               return;
           }
       
           try {
               const userInfo = await User.findOne({ email: row.UserEmail });
               if (!userInfo) {
-                  return; 
+                message = 'User Not Found';
+                return;
               }
       
               const campaign = await Campaign.findOne({ campaignName: row.CampaignName, userId: userInfo._id });
               if (!campaign) {
-                  return; 
+                message = 'Campaign Not Found';
+                return
               }     
               invoice.push({
                   invoiceNumber: `INV-${Date.now()}`,

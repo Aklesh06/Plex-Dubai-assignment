@@ -18,6 +18,7 @@ export default function Campaign() {
     const [deleteId, setDeleteId] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
     const [showAlertEdit,setShowAlertEdit] = useState(false);
+    const [selectedCampaignId, setSelectedCampaignId] = useState(null);
     const [file, setFile] = useState(null);
     const [message,setMessage] = useState('');
     const timeoutRef =useRef(null)
@@ -83,6 +84,7 @@ export default function Campaign() {
     }
 
     const handleSave = async(campaignId) => {
+        setSelectedCampaignId(campaignId)
         try {
             const response = await axios.patch(`http://localhost:3000/edit-campaign/${campaignId}`, { campaignName: editCampName, pan: editCampPan, details: editCampDetail, "paymentDetails.amount": editCampAmount }, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -214,6 +216,25 @@ export default function Campaign() {
             <Nav userInfo={userInfo} />
             <div className="campaign-section">
             <h2 className="campaign-heading">Campaigns</h2>
+
+            <div className="csv-upload-section">
+            <h2 className="upload-heading">Upload CSV</h2>
+            <h4 className="format-detail">CSV should content These Headers ('CampaignName','PAN', 'Details', 'Status', 'DateOfApproval', 'UploadDate', 'Amount', 'DueDate', 'PaymentStatus') </h4>
+            <div className="csv-upload-box">
+                <div
+                className="csv-dropzone"
+                onDragOver={hadleDragOver}
+                onDrop={handleDrop}
+                onClick={() => document.getElementById('fileInput').click()}
+                >
+                {file ? <p className="file-name">{file.name}</p> : <p>Drag your CSV file here or Click to upload</p>}
+                </div>
+                <input type="file" accept=".csv" id="fileInput" className="file-input" onChange={handleFileChange} />
+                <button className="btn-upload" onClick={handleUpload}>Upload</button>
+                {uploadMessage && <p className="upload-message">{uploadMessage}</p>}
+            </div>
+            </div>
+
             <ol className="campaign-list">
                 {campaigns.length !== 0 ? (
                 campaigns.map((campaign) => (
@@ -272,7 +293,7 @@ export default function Campaign() {
                         </div>
                         <button className="btn-edit" onClick={() => handleEdit(campaign)}>Edit</button>
                         <button className="btn-delete" onClick={() => confirmDelete(campaign._id)}>Delete</button>
-                        {showAlert && (
+                        {showAlert && deleteId === campaign._id && (
                                 <div className="custom-alert-overlay">
                                     <motion.div
                                     initial={{ opacity: 0, scale: 0 }}
@@ -290,13 +311,13 @@ export default function Campaign() {
                                     </motion.div>
                                 </div>
                             )}
-                        {showAlertEdit && (
+                        {showAlertEdit && selectedCampaignId === campaign._id && (
                             <div className="success-alert-overlay">
                                 <motion.div
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{
-                                    duration: 0.5,
+                                    duration: 0.2,
                                     scale: { type: "spring", visualDuration: 0.5, bounce: 0.6 },
                                 }} 
                                 className="success-alert-box">
@@ -314,23 +335,6 @@ export default function Campaign() {
             </ol>
             </div>
         
-            <div className="csv-upload-section">
-            <h2 className="upload-heading">Upload CSV</h2>
-            <h4 className="format-detail">CSV should content These Headers ('CampaignName','PAN', 'Details', 'Status', 'DateOfApproval', 'UploadDate', 'Amount', 'DueDate', 'PaymentStatus') </h4>
-            <div className="csv-upload-box">
-                <div
-                className="csv-dropzone"
-                onDragOver={hadleDragOver}
-                onDrop={handleDrop}
-                onClick={() => document.getElementById('fileInput').click()}
-                >
-                {file ? <p className="file-name">{file.name}</p> : <p>Drag your CSV file here or Click to upload</p>}
-                </div>
-                <input type="file" accept=".csv" id="fileInput" className="file-input" onChange={handleFileChange} />
-                <button className="btn-upload" onClick={handleUpload}>Upload</button>
-                {uploadMessage && <p className="upload-message">{uploadMessage}</p>}
-            </div>
-            </div>
             <button onClick={handleLogout} className="btn-logout">Logout</button>
         </div>
         

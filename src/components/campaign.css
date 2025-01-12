@@ -127,7 +127,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.14);
+    background-color: rgba(0, 0, 0, 0.228);
     backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
@@ -274,6 +274,7 @@
   
   .upload-message {
     margin-top: 10px;
+    font-size: medium;
     color: rgb(59, 9, 129);
   }
   

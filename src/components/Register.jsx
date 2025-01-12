@@ -30,7 +30,7 @@ export default function Register() {
         timeoutRef.current = setTimeout(() => {
             setErrMessage('');
             setErrors('');
-        },2000)
+        },3000)
     }
 
     const togglePasswordShow = (e) => {
@@ -63,10 +63,11 @@ export default function Register() {
         }
 
         if (!formData.pannum) {
-          newErrors.pannum = 'Email is required';
+          newErrors.pannum = 'Pan Number is required';
           valid = false;
         } else if(!/[A-Z]{5}[0-9]{4}[A-Z]/.test(formData.pannum)){
-          newErrors.pannum = "Enter a valid Pan number"
+          newErrors.pannum = "Enter a valid Pan number ex:(ABCDE1234F)"
+          valid = false;
         }
 
         if (!formData.pass) {
@@ -84,7 +85,7 @@ export default function Register() {
             try {
                 const response = await axios.post(`http://localhost:3000/register`, formData);
                 console.log(response.data);
-                navigate("/login");
+                navigate("/");
                 setErrMessage('');
             } catch (error) {
                 console.error('Error registering user:', error.response?.data || error.message);
@@ -161,11 +162,13 @@ export default function Register() {
                     className="form-inputs" 
                     id="phone" 
                     name="phone" 
-                    maxLength={12}
-                    minLength={10}
-                    min={0}
                     placeholder="ex:+923054170452" 
-                    onChange={handleChange} 
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value) && value.length <= 12) { 
+                            handleChange(e);
+                        }
+                    }}
                     value={formData.phone} 
                 />
                 {errors.phone && (
