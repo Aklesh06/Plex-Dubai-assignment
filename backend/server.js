@@ -24,6 +24,8 @@ const port = process.env.PORT || 5000
 app.use(bodyParser.json());
 app.use(cors())
 
+console.log(process.env.mongoURL);
+
 mongoose
   .connect(process.env.mongoURL)
   .then(() => console.log('Connected to MongoDB'))
