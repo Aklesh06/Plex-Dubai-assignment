@@ -22,7 +22,7 @@ export default function AdminDash() {
   useEffect(() => {
     const fetchData = async () => {
             try{
-                const response = await axios.get('http://localhost:3000/adminDash',{
+                const response = await axios.get('https://campaign-server.onrender.com/adminDash',{
                     headers:{Authorization: `Bearer ${token}`},
                 });
                 setUserInfo(response.data.userInfo)
@@ -73,7 +73,7 @@ export default function AdminDash() {
     if(newStatus === "Approved"){
 
         try{
-            const response = await axios.post('http://localhost:3000/create-invoice', { campaignId : campId}, {
+            const response = await axios.post('https://campaign-server.onrender.com/create-invoice', { campaignId : campId}, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             setMessagerCreate('Invoice Created Successful');
@@ -85,7 +85,7 @@ export default function AdminDash() {
     }
 
     try{
-        const response = await axios.patch(`http://localhost:3000/edit-campaignStatus/${campId}`, { status : newStatus} ,{
+        const response = await axios.patch(`https://campaign-server.onrender.com/edit-campaignStatus/${campId}`, { status : newStatus} ,{
             headers:{Authorization: `Bearer ${token}`}
         });  
         setCampaigns((prev) =>
@@ -181,7 +181,7 @@ export default function AdminDash() {
         formData.append('file',file)
 
         try{
-            const response = await axios.post('http://localhost:3000/upload-invoice',formData, {
+            const response = await axios.post('https://campaign-server.onrender.com/upload-invoice',formData, {
                 headers :{ Authorization:`Bearer ${token}`,'Content-type': 'multipart/form-data' },
             });
             setUploadMessage(response.data.message);

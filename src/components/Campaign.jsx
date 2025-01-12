@@ -30,7 +30,7 @@ export default function Campaign() {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get("http://localhost:3000/dashboard", {
+            const response = await axios.get("https://campaign-server.onrender.com/dashboard", {
               headers: { Authorization: `Bearer ${token}` },
             });
             setUserInfo(response.data.userInfo)
@@ -86,7 +86,7 @@ export default function Campaign() {
     const handleSave = async(campaignId) => {
         setSelectedCampaignId(campaignId)
         try {
-            const response = await axios.patch(`http://localhost:3000/edit-campaign/${campaignId}`, { campaignName: editCampName, pan: editCampPan, details: editCampDetail, "paymentDetails.amount": editCampAmount }, {
+            const response = await axios.patch(`https://campaign-server.onrender.com/edit-campaign/${campaignId}`, { campaignName: editCampName, pan: editCampPan, details: editCampDetail, "paymentDetails.amount": editCampAmount }, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setMessage('Campaign updated successfully.');
@@ -114,7 +114,7 @@ export default function Campaign() {
 
     const handleDelete = async (campaignId) => {
         try{
-            const response = await axios.delete(`http://localhost:3000/delete-campaign/${campaignId}`, {  
+            const response = await axios.delete(`https://campaign-server.onrender.com/delete-campaign/${campaignId}`, {  
                 headers: { Authorization: `Bearer ${token}` },
             });
             setMessage('Campaign deleted successfully.');

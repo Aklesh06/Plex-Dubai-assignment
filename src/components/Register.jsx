@@ -83,7 +83,7 @@ export default function Register() {
         setErrors(newErrors);
         if (valid) {
             try {
-                const response = await axios.post(`http://localhost:3000/register`, formData);
+                const response = await axios.post(`https://campaign-server.onrender.com/register`, formData);
                 console.log(response.data);
                 navigate("/");
                 setErrMessage('');

@@ -39,7 +39,7 @@ function ForgotPasss() {
     const handleSubmitValidation = async (event) => {
         event.preventDefault();
         try{
-            const response = await axios.post("http://localhost:3000/forgotpass",forgotPassData)
+            const response = await axios.post("https://campaign-server.onrender.com/forgotpass",forgotPassData)
             console.log(response.data.message);
             setUserInfo(response.data.user);
             setIsValidate(true)
@@ -56,7 +56,7 @@ function ForgotPasss() {
             return;
         }
         try{
-            const response = await axios.post("http://localhost:3000/change-pass",{ userId: userInfo._id, newpass: passData.newpass })
+            const response = await axios.post("https://campaign-server.onrender.com/change-pass",{ userId: userInfo._id, newpass: passData.newpass })
             setShowAlert(true)
             setTimeout(() => {
                 setShowAlert(false)

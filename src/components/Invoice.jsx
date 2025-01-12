@@ -29,7 +29,7 @@ export default function Invoice() {
     useEffect(() => {
         const fetchUserData = async () => {
             try{
-                const response = await axios.get("http://localhost:3000/dashboard", {
+                const response = await axios.get("https://campaign-server.onrender.com/dashboard", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUserInfo(response.data.userInfo);
@@ -48,7 +48,7 @@ export default function Invoice() {
         setLoading(true);
         setError('');
         try{
-            const invoiceFetch = await axios.get("http://localhost:3000/invoices", {
+            const invoiceFetch = await axios.get("https://campaign-server.onrender.com/invoices", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setInvoices(invoiceFetch.data.invoices);

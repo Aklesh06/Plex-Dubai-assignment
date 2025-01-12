@@ -37,7 +37,7 @@ export default function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try{
-            const response = await axios.post("http://localhost:3000/login",loginData);
+            const response = await axios.post("https://campaign-server.onrender.com/login",loginData);
             console.log(response.data)
 
             const { token, user } = response.data;
