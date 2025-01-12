@@ -1,0 +1,254 @@
+
+.admin-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f7f8fc;
+    min-height: 100vh;
+  }
+  
+  .admin-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .welcome-message {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+  .campaign-section {
+    margin-bottom: 40px;
+  }
+  
+  .campaign-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .campaign-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .campaign-item {
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .campaign-info {
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .campaign-actions {
+    margin-top: 10px;
+  }
+  
+  .campaign-actions button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .approve-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .reject-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .clear-btn {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .campaign-actions button:hover {
+    opacity: 0.9;
+  }
+
+  .no-campaigns {
+    color: #888;
+    font-size: 1rem;
+    margin-top: 15px;
+  }
+  
+  .download-csv-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .download-csv-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .csv-upload-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+  }
+  
+  .csv-upload-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .csv-upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 30px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .csv-upload-box:hover {
+    background-color: #e9ecef;
+  }
+  
+  .csv-file-input {
+    display: none;
+  }
+
+  .upload-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .upload-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .upload-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .upload-message {
+    font-size: 0.9rem;
+    color: green;
+    margin-top: 10px;
+  }
+
+  
+  .logout-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c82333;
+  }
+
+  .error-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #f8d7da;
+    color: #721c24; 
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .error-message {
+    margin: 0 0 16px;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .error-button {
+    padding: 10px 20px;
+    background-color: #721c24; 
+    color: #fff; 
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .error-button:hover {
+    background-color: #a71d2a;
+  }
+  
+  .success-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.228); 
+    backdrop-filter: blur(5px); 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.success-alert-box {
+    background-color: rgb(92, 192, 241); 
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    color: rgb(236, 238, 237);
+    font-size: 18px;
+    font-weight: bold;
+}
+  
+  @media (max-width: 768px) {
+    .campaign-info {
+      grid-template-columns: 1fr;
+    }
+  
+    .campaign-actions button {
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
+  }
+  
