@@ -16,18 +16,22 @@ export default function AdminDash() {
   const timeoutRef = useRef();
   const [showAlert,setShowAlert] = useState(false);
   const [currStatus, setCurrStatus] = useState('');
+  const [isLoading,setIsLoading] = useState(false)
   const navigate = useNavigate();
   const token = sessionStorage.getItem("authToken");
 
   useEffect(() => {
     const fetchData = async () => {
+           setIsLoading(true)
             try{
                 const response = await axios.get('https://campaign-server.onrender.com/adminDash',{
                     headers:{Authorization: `Bearer ${token}`},
                 });
+                setIsLoading(false)
                 setUserInfo(response.data.userInfo)
                 setCampaigns(response.data.campaign)
             }catch(error){
+                setIsLoading(false)
                 console.error('Error Fetching Data')
                 if(!token){
                     navigate('/')
@@ -186,6 +190,7 @@ export default function AdminDash() {
             });
             setUploadMessage(response.data.message);
         }catch(error){
+            console.log(error)
             setUploadMessage(
                 error.response?.data?.message || 'Error occured when uploading the file.'
             );
@@ -210,6 +215,7 @@ export default function AdminDash() {
   return (
     <>
         <div className="admin-container">
+        {isLoading && <div className="loading-overlay">Loading...</div>}
         <h1 className="admin-title">Admin Dashboard</h1>
         <h2 className="welcome-message">Welcome {userInfo.first_name}</h2>
         {showAlert && (

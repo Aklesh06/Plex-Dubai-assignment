@@ -4,6 +4,21 @@
     background-color: #f8f9fa;
 }
 
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.832);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    z-index: 1000; 
+  }
+
 .show-list{
     margin-top: 3em;
     padding: 0;

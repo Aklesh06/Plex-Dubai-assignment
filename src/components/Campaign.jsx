@@ -24,6 +24,7 @@ export default function Campaign() {
     const timeoutRef =useRef(null)
     const [uploadMessage,setUploadMessage] = useState('');
     const navigate = useNavigate();
+    const [isLoading,setIsLoading] = useState(false);
 
     const token = sessionStorage.getItem("authToken")
 
@@ -183,13 +184,16 @@ export default function Campaign() {
 
         const formData = new FormData();
         formData.append('file',file)
-
+        setIsLoading(true)
         try{
-            const response = await axios.post('http://localhost:3000/upload-campaign',formData, {
+            const response = await axios.post('https://campaign-server.onrender.com/upload-campaign',formData, {
                 headers :{ Authorization:`Bearer ${token}`,'Content-type': 'multipart/form-data' },
             });
+            setIsLoading(false)
             setUploadMessage(response.data.message);
         }catch(error){
+            setIsLoading(false)
+            console.log(error)
             setUploadMessage(
                 error.response?.data?.message || 'Error occured when uploading the file.'
             );
@@ -213,6 +217,7 @@ export default function Campaign() {
 
   return (
         <div className="campaign-page">
+            {isLoading && <div className="loading-overlay">Loading...</div>}
             <Nav userInfo={userInfo} />
             <div className="campaign-section">
             <h2 className="campaign-heading">Campaigns</h2>

@@ -8,10 +8,11 @@ export default function Login() {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordShow,setPasswordShow] = useState(false);
-    const [loginData, setLoginData] = useState({email:'',pass:''})
-    const [showAlert,setShowAlert] = useState(false)
-    const timeoutRef = useRef()
-    const navigate= useNavigate()
+    const [loginData, setLoginData] = useState({email:'',pass:''});
+    const [isLoading,setIsLoading] = useState(false);
+    const [showAlert,setShowAlert] = useState(false);
+    const timeoutRef = useRef();
+    const navigate= useNavigate();
 
     useEffect(() => {
         if(errorMessage){
@@ -36,9 +37,11 @@ export default function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true)
         try{
             const response = await axios.post("https://campaign-server.onrender.com/login",loginData);
             console.log(response.data)
+            setIsLoading(false)
 
             const { token, user } = response.data;
 
@@ -58,6 +61,7 @@ export default function Login() {
             
         }   
         catch(error){
+            setIsLoading(false)
             setErrorMessage(error.response?.data?.error || 'Login Failed')
             console.error('Error Login user:', error.response?.data || error.message);
         }     
@@ -80,6 +84,7 @@ export default function Login() {
     return(
         <>
             <div className="login-container">
+            {isLoading && <div className="loading-overlay">Loading...</div>}
             <h1>Login</h1>
             <form onSubmit={handleSubmit} className="login-form">
                 <div className="form-group">
@@ -117,7 +122,7 @@ export default function Login() {
                 </button>
                 </div>
                 </div>
-                <button type="submit" className="submit-btn">Submit</button>
+                <button type="submit" className="submit-btn" disabled={isLoading}>Submit</button>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
             </form>
             <div className="forgot-password">

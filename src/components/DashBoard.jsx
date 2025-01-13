@@ -15,6 +15,7 @@ export default function Home() {
     const [pending,setPending] = useState(0);
     const [dueDateArray,setDueDateArray] = useState([]);
     const [error, setError] = useState(null);
+    const [isLoading,setIsLoading] = useState(false);
     const isRender = useRef(false);
     const navigate = useNavigate();
 
@@ -27,16 +28,19 @@ export default function Home() {
         isRender.current = true;
 
         const fetchData = async () => {
+          setIsLoading(true)
           try {
             const response = await axios.get("https://campaign-server.onrender.com/dashboard", {
               headers: { Authorization: `Bearer ${token}` },
             });
+            setIsLoading(false)
             setUserInfo(response.data.userInfo)
             setCampaigns(response.data.campaigns)
             setInvoices(response.data.invoices)
             calculateData(response.data.campaigns)
             getDueDate(response.data.invoices)
           } catch (error) {
+            setIsLoading(false)
             console.error("Error fetching data:", error);
             if(!token){
                 navigate("/")
@@ -104,6 +108,7 @@ export default function Home() {
 
     return(
         <div className="dashboard-container">
+          {isLoading && <div className="loading-overlay">Loading...</div>}
           <Nav userInfo={userInfo}/>
           <div className="show-list">
             <div className="show-heading">
