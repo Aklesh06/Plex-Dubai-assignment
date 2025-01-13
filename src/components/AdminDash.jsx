@@ -43,7 +43,7 @@ export default function AdminDash() {
   },[token]);
 
   useEffect(() => {
-    if(message || error || uploadMessage || messageCreate){
+    if(message || uploadMessage || messageCreate){
         messageReset();
     }
     if(message && currStatus!=='Pending'){
@@ -57,7 +57,7 @@ export default function AdminDash() {
             clearTimeout(timeoutRef.current)
         }
     })
-  },[message,error,uploadMessage,messageCreate])
+  },[message,uploadMessage,messageCreate])
 
   const messageReset = () => {
     console.log('clearing Message');
@@ -66,7 +66,6 @@ export default function AdminDash() {
     }
     timeoutRef.current = setTimeout( () => {
         setMessage('');
-        setError('');
         setMessagerCreate('');
         setUploadMessage('');
     },2000);
