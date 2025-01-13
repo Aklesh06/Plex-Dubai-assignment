@@ -3,7 +3,6 @@ import { useRef, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import './admin.css';
-import { setLogging } from "tesseract.js";
 
 export default function AdminDash() {
 
