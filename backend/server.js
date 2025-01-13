@@ -238,6 +238,9 @@ app.get('/adminDash', authenticate, async(req,res) => {
     try{
       const userId = req.user.userId;
       const userInfo = await User.findById(userId);
+      if(userInfo.is_admin == false){
+        return res.status(400).json({message : 'User have no permision for this page'});
+      }
       const campaign = await Campaign.find();
       res.status(200).json({userInfo, campaign });
     }catch(error){
