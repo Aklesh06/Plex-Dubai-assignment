@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import './admin.css';
+import { setLogging } from "tesseract.js";
 
 export default function AdminDash() {
 
@@ -73,14 +74,17 @@ export default function AdminDash() {
 
   const handleEditStatus = async(campId,newStatus) => {
     setCurrStatus(newStatus)
+    setIsLoading(true)
     if(newStatus === "Approved"){
 
         try{
             const response = await axios.post('https://campaign-server.onrender.com/create-invoice', { campaignId : campId}, {
                 headers: { Authorization: `Bearer ${token}` }
             })
+            setIsLoading(false)
             setMessagerCreate('Invoice Created Successful');
         }catch(error){
+            setIsLoading(false)
             console.log('Error Creating Invoice:',error);
             setMessage(error.response.data.message)
         }
@@ -91,6 +95,7 @@ export default function AdminDash() {
         const response = await axios.patch(`https://campaign-server.onrender.com/edit-campaignStatus/${campId}`, { status : newStatus} ,{
             headers:{Authorization: `Bearer ${token}`}
         });  
+        setIsLoading(false)
         setCampaigns((prev) =>
             prev.map((campaign) => 
                 campaign._id === campId  
@@ -102,6 +107,7 @@ export default function AdminDash() {
             setMessage(`Campaign Status update to ${newStatus} Successfully`)
         }
        }catch(error){
+            setIsLoading(false)
             setMessage('Error Updateing Status campaign.');
        }
     }

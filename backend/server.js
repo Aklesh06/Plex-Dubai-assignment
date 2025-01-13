@@ -63,6 +63,7 @@ const Campaign = mongoose.model("Campaign", campaignSchema);
 const invoiceSchema = new mongoose.Schema({
   invoiceNumber: { type: String, required: true, unique: true },
   campaign: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: 'Campaign', required: true },
     title: { type: String, required: true },
     detail: { type: String, default: '' },
     status: { type: String, enum: ['Approved', 'Rejected', 'Pending'], required: true },
@@ -325,6 +326,7 @@ app.delete('/delete-campaign/:id', authenticate, async (req, res) => {
         if (!deletedCampaign) {
             return res.status(404).json({ message: 'Campaign not found.' });
         }
+        const deleteInvoice = await Invoice.findByIdAndDelete({'campaign.id':id})
         res.status(200).json({ message: 'Campaign deleted successfully.' });
     } catch (error) {
         console.error('Delete campaign error:', error);
@@ -379,6 +381,7 @@ app.post('/create-invoice', authenticate,async(req,res) => {
     const invoiceData = {
       invoiceNumber: `INV-${Date.now()}`,
       campaign:{
+        id: campaign._id,
         title: campaign.campaignName,
         detail: campaign.details,
         status: 'Approved',
@@ -489,6 +492,7 @@ app.post('/upload-invoice', authenticate, uploadinvo.single('file'), async(req,r
               invoice.push({
                   invoiceNumber: `INV-${Date.now()}`,
                   campaign: {
+                      id: campaign._id,
                       title: row.CampaignName,
                       detail: row.Camp_Description,
                       status: campaign.status,
