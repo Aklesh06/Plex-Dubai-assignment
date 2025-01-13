@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 import './register.css';
 
 export default function Register() {
@@ -10,6 +11,7 @@ export default function Register() {
     const [errors, setErrors] = useState(defaulterror);
     const [errMessage,setErrMessage] = useState('');
     const timeoutRef = useRef(null);
+    const [showAlert,setShowAlert] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -85,8 +87,13 @@ export default function Register() {
             try {
                 const response = await axios.post(`https://campaign-server.onrender.com/register`, formData);
                 console.log(response.data);
-                navigate("/");
-                setErrMessage('');
+                setShowAlert(true)
+                setTimeout(() => {
+                    setShowAlert(false)
+                    navigate('/');
+                    setErrMessage('');
+                },1500);
+               
             } catch (error) {
                 console.error('Error registering user:', error.response?.data || error.message);
                 setErrMessage(error.response?.data?.error || "Something went wrong please try again")
@@ -223,7 +230,20 @@ export default function Register() {
             <div className="back-btn-box">
                 <a href="/"><button className="back-btn">Back</button></a>
             </div>
-            
+            {showAlert && (
+                <div className="success-alert-overlay">
+                    <motion.div
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        duration: 0.5,
+                        scale: { type: "spring", visualDuration: 0.5, bounce: 0.6 },
+                    }}
+                    className="success-alert-box">
+                        <p>Profile Created Successful</p>
+                    </motion.div>
+                </div>
+            )}
             </div>
         </>
      )
