@@ -326,7 +326,7 @@ app.delete('/delete-campaign/:id', authenticate, async (req, res) => {
         if (!deletedCampaign) {
             return res.status(404).json({ message: 'Campaign not found.' });
         }
-        const deleteInvoice = await Invoice.findByIdAndDelete({'campaign.id':id})
+        const deleteInvoice = await Invoice.deleteMany({'campaign.id':id})
         res.status(200).json({ message: 'Campaign deleted successfully.' });
     } catch (error) {
         console.error('Delete campaign error:', error);
